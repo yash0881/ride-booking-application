@@ -60,8 +60,8 @@ public class RideFareRequest {
         return isPeak;
     }
 
-    public void setPeak(Boolean peak) {
-        isPeak = peak;
+    public void setIsPeak(boolean isPeak) {
+        this.isPeak = isPeak;
     }
 
 }
