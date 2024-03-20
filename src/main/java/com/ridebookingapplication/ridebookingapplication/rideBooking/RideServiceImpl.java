@@ -31,7 +31,7 @@ public class RideServiceImpl implements RideService {
             List<FareEntity> fare = fareService.getFare(vehicle, request.getAreaType());
             if (!fare.isEmpty()) {
                 FareEntity fareEntity = fare.get(0); // Accessing the first element
-                double totalFare = calculateTotalFare(fareEntity, request.getDistance(), request.getStops(), request.isPeak());
+                double totalFare = calculateTotalFare(fareEntity, request.getDistance(), request.getStops(), request.getIsPeak());
                 RideFareResponse rideFareResponse = new RideFareResponse(vehicle, totalFare);
                 rideFareResponses.add(rideFareResponse);
             }
@@ -43,9 +43,6 @@ public class RideServiceImpl implements RideService {
     private double calculateTotalFare(FareEntity fare, float distance, int extraStops, boolean peakHours) {
         double baseFare = fare.getBaseFare();
         double farePerKm = fare.getPerKmFare();
-        if(peakHours)
-            baseFare+=100.0;
-        return baseFare + (distance * farePerKm) + (extraStops * fare.getPerStopFare()) ;
-
+        return baseFare + (distance * farePerKm) + (extraStops * fare.getPerStopFare() + (peakHours ? fare.getPeakFare() : 0));
     }
 }

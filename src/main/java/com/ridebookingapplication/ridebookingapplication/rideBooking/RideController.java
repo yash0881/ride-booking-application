@@ -14,8 +14,6 @@ import java.util.List;
 @RestController
 public class RideController {
 
-
-
     @Autowired
     RideService rideService;
 
