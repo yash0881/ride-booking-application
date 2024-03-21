@@ -11,11 +11,18 @@ import java.time.LocalDateTime;
 @Service
 public class VehicleServiceImpl implements VehicleService {
 
-    private final VehicleRepository vehicleRepository;
 
     @Autowired
+    private final VehicleRepository vehicleRepository;
+
     public VehicleServiceImpl(VehicleRepository vehicleRepository) {
         this.vehicleRepository = vehicleRepository;
+    }
+
+
+    @Override
+    public VehicleEntity getVehicleNumber(VehicleType vehicleType, String city, AreaType areaType) {
+        return vehicleRepository.findByVehicleTypeAndCityAndAreaType(vehicleType,city, areaType);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.ridebookingapplication.ridebookingapplication.rideBooking;
 
 
+import com.ridebookingapplication.ridebookingapplication.vehicleConfiguration.VehicleEntity;
 import com.ridebookingapplication.ridebookingapplication.vehicleConfiguration.VehicleType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,19 +19,23 @@ public class RideController {
     RideService rideService;
 
     @GetMapping("/isAvailable")
-    List<RideFareResponse> checkAvailability(@RequestBody RideFareRequest request){
+    List<RideFareResponse> checkAvailability(@RequestBody RideFareRequest request) {
 
-          List<VehicleAvailabilityMapEntity> vehicleAvailabilityMapEntity =  rideService.getAvailableVehicles(request.getCity(), request.getAreaType());
+        List<VehicleAvailabilityMapEntity> vehicleAvailabilityMapEntity = rideService.getAvailableVehicles(request.getCity(), request.getAreaType());
 
-          List<VehicleType> availableVehicles = new ArrayList<>();
+        List<VehicleType> availableVehicles = new ArrayList<>();
 
-          for(VehicleAvailabilityMapEntity entity : vehicleAvailabilityMapEntity){
-              availableVehicles.add(entity.getVehicleId().getVehicleType());
-          }
+        for (VehicleAvailabilityMapEntity entity : vehicleAvailabilityMapEntity) {
+            availableVehicles.add(entity.getVehicleId().getVehicleType());
+        }
 
         return rideService.getAvailabilityWithFare(availableVehicles, request);
     }
 
+    @GetMapping("/start")
+    RideStartResponse startRide(@RequestBody RideStartRequest request){
+        return rideService.startRide(request);
+    }
 
 
 }
